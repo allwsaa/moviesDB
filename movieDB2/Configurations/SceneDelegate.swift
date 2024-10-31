@@ -14,16 +14,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        // Initialize the main window
+        
         window = UIWindow(windowScene: windowScene)
         
-        // Create an instance of the main ViewController
         let mainViewController = ViewController()
         
-        // Embed the ViewController in a UINavigationController
         let navigationController = UINavigationController(rootViewController: mainViewController)
-        
-        // Set the UINavigationController as the root view controller
+
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }

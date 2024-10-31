@@ -1,3 +1,9 @@
+//
+//  ActorViewController.swift
+//  movieDB2
+//
+//  Created by ntvlbl on 31.10.2024.
+//
 import UIKit
 import SnapKit
 

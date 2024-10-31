@@ -1,10 +1,19 @@
+//
+//  ViewController.swift
+//  movieDB2
+//
+//  Created by ntvlbl on 31.10.2024.
+//
+
 import UIKit
 import SnapKit
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
-    // MARK: - UI Elements
-    
+
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "MovieDB"
@@ -49,21 +58,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         return collectionView
     }()
     
-    private let moviePosterImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "moviePoster")
-        imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 10
-        imageView.layer.masksToBounds = true
-        return imageView
-    }()
+    private let moviePosterImageView = UIImageView(image: UIImage(named: "moviePoster"))
+    private let movieTitleButton = UIButton(type: .system)
     
-    private let movieTitleButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("The Green Mile", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 24)
-        button.setTitleColor(.black, for: .normal)
-        return button
+    private let nightclubPosterImageView = UIImageView(image: UIImage(named: "fightClubPoster"))
+    private let nightclubTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Fight Club"
+        label.font = UIFont.boldSystemFont(ofSize: 24)
+        label.textAlignment = .center
+        label.textColor = .black
+        return label
     }()
     
     private let tabBar: UITabBar = {
@@ -80,86 +85,115 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     private let themes = ["Popular", "Now Playing", "Upcoming", "Top Rated"]
     private let genres = ["Action", "Adventure", "Comedy", "Drama"]
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
         configureCollectionView()
         
-        
         movieTitleButton.addTarget(self, action: #selector(movieTitleTapped), for: .touchUpInside)
     }
-    
-    
+
     private func setupViews() {
         view.backgroundColor = .white
-        view.addSubview(titleLabel)
-        view.addSubview(themeLabel)
-        view.addSubview(themeCollectionView)
-        view.addSubview(genreLabel)
-        view.addSubview(genreCollectionView)
-        view.addSubview(moviePosterImageView)
-        view.addSubview(movieTitleButton)
-        view.addSubview(tabBar)
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(themeLabel)
+        contentView.addSubview(themeCollectionView)
+        contentView.addSubview(genreLabel)
+        contentView.addSubview(genreCollectionView)
+        
+        moviePosterImageView.contentMode = .scaleAspectFill
+        moviePosterImageView.layer.cornerRadius = 10
+        moviePosterImageView.layer.masksToBounds = true
+        contentView.addSubview(moviePosterImageView)
+        
+        movieTitleButton.setTitle("The Green Mile", for: .normal)
+        movieTitleButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 24)
+        movieTitleButton.setTitleColor(.black, for: .normal)
+        contentView.addSubview(movieTitleButton)
+        
+        nightclubPosterImageView.contentMode = .scaleAspectFill
+        nightclubPosterImageView.layer.cornerRadius = 10
+        nightclubPosterImageView.layer.masksToBounds = true
+        contentView.addSubview(nightclubPosterImageView)
+        
+        contentView.addSubview(nightclubTitleLabel)
+        contentView.addSubview(tabBar)
     }
-    
 
-    
     private func setupConstraints() {
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        contentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalToSuperview()
+        }
+
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(view).offset(60)
+            make.top.equalTo(contentView).offset(10) 
             make.centerX.equalToSuperview()
         }
         
         themeLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(10)
-            make.leading.equalTo(view).offset(16)
+            make.top.equalTo(titleLabel.snp.bottom).offset(5)
+            make.leading.equalTo(contentView).offset(16)
         }
         
         themeCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(themeLabel.snp.bottom).offset(8)
-            make.leading.equalTo(view).offset(16)
-            make.trailing.equalTo(view).offset(-16)
+            make.top.equalTo(themeLabel.snp.bottom).offset(3)
+            make.leading.trailing.equalTo(contentView).inset(16)
             make.height.equalTo(40)
         }
         
         genreLabel.snp.makeConstraints { make in
-            make.top.equalTo(themeCollectionView.snp.bottom).offset(20)
-            make.leading.equalTo(view).offset(16)
+            make.top.equalTo(themeCollectionView.snp.bottom).offset(5)
+            make.leading.equalTo(contentView).offset(16)
         }
         
         genreCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(genreLabel.snp.bottom).offset(8)
-            make.leading.equalTo(view).offset(16)
-            make.trailing.equalTo(view).offset(-16)
+            make.top.equalTo(genreLabel.snp.bottom).offset(3)
+            make.leading.trailing.equalTo(contentView).inset(16)
             make.height.equalTo(40)
         }
         
         moviePosterImageView.snp.makeConstraints { make in
-            make.top.equalTo(genreCollectionView.snp.bottom).offset(50)
+            make.top.equalTo(genreCollectionView.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
-            make.width.equalTo(view.snp.width).multipliedBy(0.75)
+            make.width.equalTo(contentView.snp.width).multipliedBy(0.75)
             make.height.equalTo(moviePosterImageView.snp.width).multipliedBy(1.3)
         }
         
         movieTitleButton.snp.makeConstraints { make in
             make.top.equalTo(moviePosterImageView.snp.bottom).offset(8)
             make.centerX.equalToSuperview()
-            make.bottom.lessThanOrEqualTo(tabBar.snp.top).offset(-16)
+        }
+        
+        nightclubPosterImageView.snp.makeConstraints { make in
+            make.top.equalTo(movieTitleButton.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(contentView.snp.width).multipliedBy(0.75)
+            make.height.equalTo(nightclubPosterImageView.snp.width).multipliedBy(1.3)
+        }
+        
+        nightclubTitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(nightclubPosterImageView.snp.bottom).offset(8)
+            make.centerX.equalToSuperview()
         }
 
         tabBar.snp.makeConstraints { make in
+            make.top.equalTo(nightclubTitleLabel.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(contentView)
             make.height.equalTo(50)
         }
-
     }
-    
 
-    
     private func configureCollectionView() {
         themeCollectionView.dataSource = self
         themeCollectionView.delegate = self
@@ -169,28 +203,20 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         genreCollectionView.delegate = self
         genreCollectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "genreCell")
     }
-    
 
-    
     @objc private func movieTitleTapped() {
         let detailVC = MovieDetailsViewController()
         navigationController?.pushViewController(detailVC, animated: true)
     }
-    
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return collectionView == themeCollectionView ? themes.count : genres.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionView == themeCollectionView ? "themeCell" : "genreCell", for: indexPath) as! CategoryCollectionViewCell
-        if collectionView == themeCollectionView {
-            cell.configure(with: themes[indexPath.item])
-            cell.backgroundColor = .red
-        } else {
-            cell.configure(with: genres[indexPath.item])
-            cell.backgroundColor = .blue
-        }
+        cell.configure(with: collectionView == themeCollectionView ? themes[indexPath.item] : genres[indexPath.item])
+        cell.backgroundColor = collectionView == themeCollectionView ? .red : .blue
         return cell
     }
     

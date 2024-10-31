@@ -1,3 +1,9 @@
+//
+//  MovieDetailsViewController.swift
+//  movieDB2
+//
+//  Created by ntvlbl on 31.10.2024.
+//
 import UIKit
 import SnapKit
 
@@ -42,17 +48,16 @@ class MovieDetailsViewController: UIViewController {
     private let genresStackView: UIStackView = {
         let genre1 = UIButton(type: .system)
         genre1.setTitle("Drama", for: .normal)
-        genre1.backgroundColor = .systemBlue
+        genre1.backgroundColor = .systemGreen
         genre1.tintColor = .white
         genre1.layer.cornerRadius = 10
 
         let genre2 = UIButton(type: .system)
         genre2.setTitle("Crime", for: .normal)
-        genre2.backgroundColor = .systemBlue
+        genre2.backgroundColor = .systemGreen
         genre2.tintColor = .white
         genre2.layer.cornerRadius = 10
 
-        // Set fixed sizes for Drama and Crime buttons
         genre1.snp.makeConstraints { make in
             make.width.equalTo(80)
             make.height.equalTo(25)
@@ -101,7 +106,7 @@ class MovieDetailsViewController: UIViewController {
     private let addToWatchListButton: UIButton = {
         let button = UIButton()
         button.setTitle("Add To Watch List", for: .normal)
-        button.backgroundColor = .systemBlue
+        button.backgroundColor = .systemGreen
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 10
         return button
