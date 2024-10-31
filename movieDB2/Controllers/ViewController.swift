@@ -61,8 +61,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     private let moviePosterImageView = UIImageView(image: UIImage(named: "moviePoster"))
     private let movieTitleButton = UIButton(type: .system)
     
-    private let nightclubPosterImageView = UIImageView(image: UIImage(named: "fightClubPoster"))
-    private let nightclubTitleLabel: UILabel = {
+    private let fightclubPosterImageView = UIImageView(image: UIImage(named: "fightClubPoster"))
+    private let fightclubTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "Fight Club"
         label.font = UIFont.boldSystemFont(ofSize: 24)
@@ -116,12 +116,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         movieTitleButton.setTitleColor(.black, for: .normal)
         contentView.addSubview(movieTitleButton)
         
-        nightclubPosterImageView.contentMode = .scaleAspectFill
-        nightclubPosterImageView.layer.cornerRadius = 10
-        nightclubPosterImageView.layer.masksToBounds = true
-        contentView.addSubview(nightclubPosterImageView)
+        fightclubPosterImageView.contentMode = .scaleAspectFill
+        fightclubPosterImageView.layer.cornerRadius = 10
+        fightclubPosterImageView.layer.masksToBounds = true
+        contentView.addSubview(fightclubPosterImageView)
         
-        contentView.addSubview(nightclubTitleLabel)
+        contentView.addSubview(fightclubTitleLabel)
         contentView.addSubview(tabBar)
     }
 
@@ -174,20 +174,20 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             make.centerX.equalToSuperview()
         }
         
-        nightclubPosterImageView.snp.makeConstraints { make in
+        fightclubPosterImageView.snp.makeConstraints { make in
             make.top.equalTo(movieTitleButton.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
             make.width.equalTo(contentView.snp.width).multipliedBy(0.75)
-            make.height.equalTo(nightclubPosterImageView.snp.width).multipliedBy(1.3)
+            make.height.equalTo(fightclubPosterImageView.snp.width).multipliedBy(1.3)
         }
         
-        nightclubTitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(nightclubPosterImageView.snp.bottom).offset(8)
+        fightclubTitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(fightclubPosterImageView.snp.bottom).offset(8)
             make.centerX.equalToSuperview()
         }
 
         tabBar.snp.makeConstraints { make in
-            make.top.equalTo(nightclubTitleLabel.snp.bottom).offset(10)
+            make.top.equalTo(fightclubTitleLabel.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(contentView)
             make.height.equalTo(50)
