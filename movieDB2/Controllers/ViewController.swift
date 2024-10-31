@@ -30,6 +30,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         return label
     }()
     
+    
     private let themeCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
